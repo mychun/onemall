@@ -3,7 +3,7 @@ import Router from 'vue-router';
 
 import home from './home';
 import order from './order';
-import item from './item';
+import item from './items';
 import user from './user';
 
 Vue.use(Router)

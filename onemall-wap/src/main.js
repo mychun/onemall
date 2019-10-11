@@ -4,7 +4,13 @@ import router from '@/router';
 
 Vue.config.productionTip = false;
 
-import './libs/hotcss/hotcss.js';
+import './utils/hotcss/hotcss.js';
+
+//图片懒加载
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload, {
+  loading: require('@/assets/img/default.png')
+})
 
 
 new Vue({

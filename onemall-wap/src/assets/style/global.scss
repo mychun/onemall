@@ -1,9 +1,40 @@
-@import '@/libs/hotcss/px2rem.scss';
+@import '@/utils/hotcss/px2rem.scss';
 @import "./var";
 @import "./mixin";
 
 @import "./common";
 
-*{ margin : 0; padding : 0;box-sizing: border-box;}
-ul,li{ list-style: none;}
-html,body{ height:100%; background-color: #f1f1f1;font-size: px2rem(24)}
+* {
+	box-sizing: border-box;
+}
+
+a {
+	color: $text-color-imp
+}
+
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0 1000px white inset;
+}
+
+html {
+	-webkit-overflow-scrolling: touch;
+	height: 100%;
+}
+body {
+	height: 100%;
+	overflow-x: hidden;
+	color: $text-color-imp;
+	margin: 0 auto;
+    font-size: $text-size-mid;
+    background-color: #f1f1f1;
+}
+#app{
+	height: 100%;
+}
+h1,h2,h3,h4,p,ul,li{margin: 0; padding: 0;}
+input{ border: none; font-size: $text-size-mid;}
+ul,li{ list-style: none; }
+
+.main{
+    padding-bottom: px2rem(100);
+}

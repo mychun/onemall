@@ -31,7 +31,7 @@ export default {
     width:100%;
     z-index: 10;
     height: px2rem(100);
-    background-color: #fff;
+    background-color: $wrapper-bg;
     box-shadow: 0 -2px 10px #ccc;
     display: flex;
     .tab-item{
@@ -42,7 +42,7 @@ export default {
         text-align: center;
         padding-top: px2rem(4);
         &.router-link-active{
-            color:#ff0000;
+            color:$act-color;
         }
         .iconfont{
             font-size: px2rem(56);
