@@ -1,6 +1,8 @@
 const Tab = () => import('@/components/tab');
 const Category = () => import('@/views/items/category');
 const Search = () => import('@/views/items/search');
+const Goods = () => import('@/views/items/goods');
+const Default = () => import('@/views/items/default');
 
 export default [
     {
@@ -27,5 +29,15 @@ export default [
         meta: {
             keepAlive: true
         }
+    },
+    {
+        path: '/goods/:type', 
+        name: 'goods',
+        component: Goods
+    },
+    {
+        path: '/default/:id', 
+        name: 'default',
+        component: Default
     }
 ]

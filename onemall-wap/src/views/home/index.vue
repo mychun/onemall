@@ -1,27 +1,73 @@
 <template>
   <div class="home">
-    <div class="index-search" @click="clickSearchBoxHandle">
-      <search-box placeholder="点击搜索" disabled="disabled"></search-box>
-    </div>
-    <banner-slider :data="banner"></banner-slider>
-    
+    <scroll class="home-content">
+      <div class="home-wrapper" v-show="!loadingState">
+        <div class="home-search" @click="clickSearchBoxHandle">
+          <search-box placeholder="点击搜索" disabled="disabled"></search-box>
+        </div>
+
+        <div class="slider-wrapper">
+          <div class="slider-content">
+            <slider :data="banner">
+              <div v-for="(item, index) in banner" :key="index">
+                <a href="javascript:void(0);">
+                  <img :src="item.url" />
+                </a>
+              </div>
+            </slider>
+          </div>
+        </div>
+        <div class="home-goods">
+          <h3>
+            <span class="i-title">新品首发</span>
+            <router-link tag="span" to="/goods/new" class="i-link">
+              更多
+              <i class="iconfont icon-youdanjiantou"></i>
+            </router-link>
+          </h3>
+          <goods-list :data="newList"></goods-list>
+        </div>
+        <div class="home-goods">
+          <h3>
+            <span class="i-title">人气推荐</span>
+            <router-link tag="span" to="/goods/hot" class="i-link">
+              更多
+              <i class="iconfont icon-youdanjiantou"></i>
+            </router-link>
+          </h3>
+          <goods-list :data="hotList"></goods-list>
+        </div>
+      </div>
+      <div class="loadingWrapper">
+        <loading v-show="loadingState"></loading>
+      </div>
+    </scroll>
   </div>
 </template>
 <script>
 import searchBox from "@/components/search-box";
-import bannerSlider from "@/components/banner-slider";
-import { getHome } from '@/api/api';
+import slider from "@/components/slider";
+import goodsList from "@/components/goods-list";
+import loading from "@/components/loading";
+import scroll from "@/components/scroll";
+import { getHome } from "@/api/api";
 export default {
   name: "home",
   components: {
     searchBox,
-    bannerSlider
+    slider,
+    goodsList,
+    loading,
+    scroll
   },
   data() {
     return {
       disabled: true,
-      shopInfos: [],
-      banner: []
+      shopInfos: {},
+      banner: [],
+      newList: [],
+      hotList: [],
+      loadingState: true
     };
   },
   created() {
@@ -36,15 +82,66 @@ export default {
     initViews() {
       getHome().then(res => {
         this.shopInfos = res.data.data;
-        console.log(this.shopInfos)
-        this.banner = this.shopInfos.banner
+        this.banner = this.shopInfos.banner;
+        this.newList = this.shopInfos.newGoodsList;
+        this.hotList = this.shopInfos.hotGoodsList;
+        this.loadingState = false;
       });
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.home{
+.home {
+  height: 100%;
+  padding-bottom: px2rem(100);
+  .home-content {
+    height: 100%;
 
+    .home-wrapper {
+      .slider-wrapper {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-top: 55.5%;
+        overflow: hidden;
+
+        .slider-content {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .home-goods {
+        margin-top: $pd-size;
+        background-color: $wrapper-bg;
+        h3 {
+          font-weight: normal;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: $pd-size;
+          .i-title {
+            color: $text-color;
+          }
+          .i-link {
+            color: $text-color-assist;
+            .iconfont {
+              font-size: px2rem(40);
+              vertical-align: bottom;
+            }
+          }
+        }
+      }
+    }
+    .loadingWrapper {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      transform: translateY(-50%);
+    }
+  }
 }
 </style>

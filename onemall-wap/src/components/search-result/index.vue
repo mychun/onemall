@@ -47,13 +47,17 @@ export default {
     }
   },
   methods: {
-    getSearchGoods() {
+    init(){
       //搜索输入后第一次搜索
       this.page = 1; //重置page为1
       this.endHint = false;
       this.hasMore = true;
       this.searchGoodsList = [];
       this.$refs.searchResultScroll.scrollTo(0, 0); //要返回头部
+    },
+    getSearchGoods() {
+      this.init();
+
       getGoodsList({
         keyword: this.query,
         page: this.page,

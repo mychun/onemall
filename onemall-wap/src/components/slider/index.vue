@@ -1,23 +1,15 @@
 <template>
-  <div class="slider-wrapper">
-    <div class="slider-content">
-      <div class="slider" ref="slider">
-        <div class="slider-group" ref="sliderGroup">
-          <div v-for="(item, index) in data" :key="index">
-            <a href="javascript:void(0);">
-              <img :src="item.url" />
-            </a>
-          </div>
-        </div>
-        <div class="dots">
-          <span
-            class="dot"
-            :class="{active: currentPageIndex === index }"
-            v-for="(item, index) in dots"
-            :key="index"
-          ></span>
-        </div>
-      </div>
+  <div class="slider" ref="slider">
+    <div class="slider-group" ref="sliderGroup">
+      <slot></slot>
+    </div>
+    <div class="dots">
+      <span
+        class="dot"
+        :class="{active: currentPageIndex === index }"
+        v-for="(item, index) in dots"
+        :key="index"
+      ></span>
     </div>
   </div>
 </template>
@@ -89,7 +81,6 @@ export default {
     }
   },
   activated() {
-    console.log("activated");
     if (!this.slider) return;
 
     //keep-alive 组件激活时调用(例如从其它路由切回到当前路由就是激活)，该钩子在服务器端渲染期间不被调用。
@@ -204,71 +195,55 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.slider-wrapper {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-top: 55.5%;
-  overflow: hidden;
+.slider {
+  min-height: px2rem(2);
 
-  .slider-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  .slider-group {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
 
-    .slider {
-      min-height: px2rem(2);
+    .slider-item {
+      float: left;
+      box-sizing: border-box;
+      overflow: hidden;
+      text-align: center;
 
-      .slider-group {
-        position: relative;
+      a {
+        display: block;
+        width: 100%;
         overflow: hidden;
-        white-space: nowrap;
-
-        .slider-item {
-          float: left;
-          box-sizing: border-box;
-          overflow: hidden;
-          text-align: center;
-
-          a {
-            display: block;
-            width: 100%;
-            overflow: hidden;
-            text-decoration: none;
-          }
-
-          img {
-            display: block;
-            width: 100%;
-          }
-        }
+        text-decoration: none;
       }
 
-      .dots {
-        position: absolute;
-        right: 0;
-        left: 0;
-        bottom: px2rem(24);
-        transform: translateZ(px2rem(2));
-        text-align: center;
-        font-size: 0;
+      img {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
 
-        .dot {
-          display: inline-block;
-          margin: 0 4px;
-          width: px2rem(16);
-          height: px2rem(16);
-          border-radius: 50%;
-          background: $inner-wrapper-bg;
+  .dots {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: px2rem(24);
+    transform: translateZ(px2rem(2));
+    text-align: center;
+    font-size: 0;
 
-          &.active {
-            width: px2rem(40);
-            border-radius: px2rem(10);
-            background: $wrapper-bg;
-          }
-        }
+    .dot {
+      display: inline-block;
+      margin: 0 4px;
+      width: px2rem(16);
+      height: px2rem(16);
+      border-radius: 50%;
+      background: $inner-wrapper-bg;
+
+      &.active {
+        width: px2rem(40);
+        border-radius: px2rem(10);
+        background: $wrapper-bg;
       }
     }
   }

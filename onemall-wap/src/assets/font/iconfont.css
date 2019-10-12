@@ -15,12 +15,20 @@
   content: "\e715";
 }
 
+.icon-xiangzuo:before {
+  content: "\e62f";
+}
+
 .icon-shibai:before {
   content: "\e614";
 }
 
 .icon-chuyidong:before {
   content: "\e605";
+}
+
+.icon-youdanjiantou:before {
+  content: "\e61c";
 }
 
 .icon-shanchu:before {
@@ -54,8 +62,4 @@
 .icon-icon-category:before {
   content: "\e603";
 }
-
-
-
-
 

@@ -16,3 +16,12 @@ export function getHome() {
     method: 'get'
   })
 }
+
+const GoodsDetail='wx/goods/detail'; //获得商品的详情
+export function goodsDetail(query) {
+  return request({
+    url: GoodsDetail,
+    method: 'get',
+    params: query
+  })
+}

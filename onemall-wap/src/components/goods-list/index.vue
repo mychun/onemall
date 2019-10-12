@@ -1,6 +1,6 @@
 <template>
   <ul class="search-goods-list">
-    <li v-for="(item, index) in data" :key="index">
+    <li v-for="item in data" :key="item.id" @click="goToDefault(item.id)">
       <img v-lazy="item.picUrl" />
       <div class="g-info">
         <h3 class="g-name">{{item.name}}</h3>
@@ -20,6 +20,11 @@ export default {
     data: {
       type: Array,
       default: []
+    }
+  },
+  methods: {
+    goToDefault(id){
+      this.$router.push({ path: `/default/${id}` })
     }
   }
 };
