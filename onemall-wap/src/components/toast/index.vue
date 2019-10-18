@@ -21,8 +21,6 @@ export default {
       this.content = obj.content;
       this.icon = obj.icon;
       this.showFlag = true;
-      console.log(timeout)
-      if(timeout) clearTimeout(timeout);
       let timeout = setTimeout(()=>{
           this.showFlag = false;
       }, 1000)

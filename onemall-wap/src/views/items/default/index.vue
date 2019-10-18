@@ -24,14 +24,14 @@
         </div>
         <div class="g-detail-wrapper">
           <ul class="g-params">
-            <li @click="showStandard">
+            <li @click="standardActive">
               <span class="par-left">规格</span>
               <span class="par-right">
                 <i class="par-right-txt">请选择</i>
                 <i class="iconfont icon-youdanjiantou"></i>
               </span>
             </li>
-            <li @click="showParams">
+            <li @click="paramsActive">
               <span class="par-left">属性</span>
               <span class="par-right">
                 <i class="iconfont icon-youdanjiantou"></i>
@@ -56,12 +56,12 @@
       <loading></loading>
     </div>
     <transition name="show">
-      <div class="pop-up-frame" v-show="paramsFlag" ref="gParams" @click="closeParams">
+      <div class="pop-up-frame" v-show="paramsFlag" ref="gParams" @click="paramsActive">
         <div class="frame-cont" @click.stop>
           <div class="params-cont">
             <h3 class="title-wrap">
               商品属性
-              <i class="iconfont icon-shibai" @click="closeParams"></i>
+              <i class="iconfont icon-shibai" @click="paramsActive"></i>
             </h3>
             <ul v-if="params.length" class="params-wrap">
               <li v-for="(item, index) of params" :key="index">
@@ -75,7 +75,7 @@
       </div>
     </transition>
     <transition name="show">
-      <div class="pop-up-frame" v-show="standardFlag" ref="gStandard" @click="closeStandard">
+      <div class="pop-up-frame" v-show="standardFlag" ref="gStandard" @click="standardActive">
         <div class="frame-cont buy-cont" @click.stop>
           <div class="buy-wrapper">
             <div class="buy-top">
@@ -105,7 +105,7 @@
                   </template>
                 </dd>
               </dl>
-              <i class="iconfont icon-shibai" @click="closeStandard"></i>
+              <i class="iconfont icon-shibai" @click="standardActive"></i>
             </div>
             <div class="buy-standard-wrapper">
               <div
@@ -195,7 +195,9 @@ export default {
     isSelAll() {
       //判断是否选择购买商品的全部参数
 
-      if (!this.selGoodsSize.length) return;
+      if (!this.selGoodsSize.length) {
+        return status = false;
+      }
 
       let status = true;
       this.selGoodsSize.forEach(item => {
@@ -231,16 +233,10 @@ export default {
       });
 
       if (buyGoodsInfo.stockNumber == 0) {
-        this.$refs.toast.show({
-          content: "库存不足！",
-          icon: "icon-gantanhao"
-        });
+        this._total("库存不足！");
       }
       return buyGoodsInfo;
     }
-  },
-  watch: {
-    buyGoodsInfo(newVal) {}
   },
   methods: {
     initData() {
@@ -257,17 +253,11 @@ export default {
         });
       });
     },
-    showStandard() {
-      this.standardFlag = true;
+    standardActive() {
+      this.standardFlag = !this.standardFlag;
     },
-    closeStandard() {
-      this.standardFlag = false;
-    },
-    showParams() {
-      this.paramsFlag = true;
-    },
-    closeParams() {
-      this.paramsFlag = false;
+    paramsActive() {
+      this.paramsFlag = !this.paramsFlag;
     },
     selSpecific(spec_index, item_index) {
       const specificItem = "specificItem" + spec_index + "_" + item_index;
@@ -294,34 +284,22 @@ export default {
     },
     addCartHandle() {
       if (!this.isSelAll) {
-        this.$refs.toast.show({
-          content: "请先选择商品参数！",
-          icon: "icon-gantanhao"
-        });
+        this._total("请先选择商品参数！");
         return;
       }
       if (!this.buyGoodsInfo.stockNumber) {
-        this.$refs.toast.show({
-          content: "加入失败：库存不足。",
-          icon: "icon-gantanhao"
-        });
+        this._total("加入失败：库存不足。", "icon-shibai");
         return;
       }
       console.log(this.buyGoodsInfo);
     },
     mustBuyHandle() {
       if (!this.isSelAll) {
-        this.$refs.toast.show({
-          content: "请先选择商品参数！",
-          icon: "icon-gantanhao"
-        });
+        this._total("请先选择商品参数！");
         return;
       }
       if (!this.buyGoodsInfo.stockNumber) {
-        this.$refs.toast.show({
-          content: "购买失败：库存不足。",
-          icon: "icon-gantanhao"
-        });
+        this._total("购买失败：库存不足。", "icon-shibai");
         return;
       }
       console.log(this.buyGoodsInfo);
@@ -338,6 +316,12 @@ export default {
         });
       }
       return flag;
+    },
+    _total(content, icon = ''){
+      this.$refs.toast.show({
+          content: content,
+          icon: icon ? icon : "icon-gantanhao"
+        });
     }
   }
 };

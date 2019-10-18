@@ -16,16 +16,11 @@
       :class="addDisable || disableBtn ? 'disable' : ''"
       @click="add"
     ></div>
-    <toast ref="counterToast"></toast>
   </div>
 </template>
 <script>
-import toast from "@/components/toast";
 export default {
   name: "counter",
-  components: {
-    toast
-  },
   props: {
     max: {
       type: Number,
@@ -48,7 +43,7 @@ export default {
   //监听number的变化，然后出发父类绑定的on-change事件
   watch: {
     number() {
-        //刚渲染就会触发，因为库存第一次传过时为0
+      //刚渲染就会触发，因为库存第一次传过时为0
       this.$emit("on-change", this.number);
     }
   },
@@ -65,20 +60,18 @@ export default {
       }
       return false;
     },
-    inputDisable(){
-        if(this.max == 0 || this.max < this.min){
-            this.number = 0;
-            return true;
-        }else{
-            this.number = 1;
-            return false;
-        }
-        
+    inputDisable() {
+      if (this.max == 0 || this.max < this.min) {
+        this.number = 0;
+        return true;
+      } else {
+        this.number = 1;
+        return false;
+      }
     }
   },
   methods: {
     fixNumber() {
-        
       if (this.disableBtn) {
         this.toast("请先选择商品参数！");
         this.number = 1;
@@ -103,15 +96,14 @@ export default {
       this.number = fix;
     },
     minus() {
-        
       if (this.disableBtn) {
         this.toast("请先选择商品参数！");
         return;
       }
-      if(this.max == 0 || this.max < this.min){
-            this.toast("库存不足");
-            return;
-        }
+      if (this.max == 0 || this.max < this.min) {
+        this.toast("库存不足");
+        return;
+      }
       if (this.number <= this.min) {
         this.toast(`购买数量最少为：${this.min}`);
         return;
@@ -123,10 +115,10 @@ export default {
         this.toast("请先选择商品参数！");
         return;
       }
-      if(this.max == 0 || this.max < this.min){
-            this.toast("库存不足");
-            return;
-        }
+      if (this.max == 0 || this.max < this.min) {
+        this.toast("库存不足");
+        return;
+      }
       if (this.number >= this.max) {
         this.toast("库存不足");
         return;
@@ -134,10 +126,7 @@ export default {
       this.number++;
     },
     toast(content) {
-      this.$refs.counterToast.show({
-        content: content,
-        icon: "icon-gantanhao"
-      });
+      this.$parent._total(content);
     }
   }
 };
