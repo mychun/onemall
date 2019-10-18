@@ -36,9 +36,6 @@ export default {
     };
   },
   created() {
-    if(!this.$route.params.type){
-      this.$router.push('/index');
-    }
     this.getList();
   },
   computed: {
@@ -47,8 +44,11 @@ export default {
       if(this.$route.params.type == 'hot'){
         title = '人气推荐';
       }
-      if(this.$route.params.type == 'new'){
+      else if(this.$route.params.type == 'new'){
         title = '新品首发';
+      }
+      else{
+        title='商品列表';
       }
       return title;
     }

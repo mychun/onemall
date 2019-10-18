@@ -3,14 +3,16 @@ $act-color: #ff0000;
 $text-color: #757575;
 $text-color-imp: #000;
 $text-color-assist: #b7b4b4;
-$success-color: #07c160;
-$danger-color: #ee0a24;
+$success-color: #5cb85c;
+$warning-color: #ec971f;
+$danger-color: #d9534f;
 $price-color: #ff0000;
+$main-bg: #f1f1f1;
 $wrapper-bg: #fff;
 $inner-wrapper-bg: #f7f8fa;
-$shadow-background: rgba(0, 0, 0, 0.1);
-$transparent-background: rgba(0, 0, 0, 0.6);
-
+$shadow-bg: rgba(0, 0, 0, 0.1);
+$transparent-bg: rgba(0, 0, 0, 0.6);
+$warning-btn-bg: linear-gradient(to right,#ffd01e,#ff8917);
 
 //设置字体大小
 $text-size-imp: px2rem(36);
@@ -20,8 +22,9 @@ $text-size: px2rem(24);
 $text-size-small: px2rem(22);
 
 //边距
+$pd-size-small: px2rem(10);
 $pd-size: px2rem(20);
-$pd-size-mid: px2rem(10);
+$pd-size-big: px2rem(30);
 
 //顶部标题高度
 $header-h: px2rem(100);

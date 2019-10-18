@@ -61,7 +61,7 @@ export default {
   top: 0;
   bottom: 0;
   z-index: 998;
-  background-color: $shadow-background;
+  background-color: $shadow-bg;
 
   &.fade-enter-active {
     animation: fadein 0.3s;

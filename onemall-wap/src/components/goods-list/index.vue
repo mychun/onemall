@@ -34,7 +34,7 @@ export default {
   padding: $pd-size;
   background-color: $wrapper-bg;
   li {
-    padding: $pd-size-mid 0;
+    padding: $pd-size-small 0;
     display: flex;
     img {
       display: block;

@@ -21,7 +21,9 @@ export default {
       this.content = obj.content;
       this.icon = obj.icon;
       this.showFlag = true;
-      setTimeout(()=>{
+      console.log(timeout)
+      if(timeout) clearTimeout(timeout);
+      let timeout = setTimeout(()=>{
           this.showFlag = false;
       }, 1000)
     }
@@ -34,12 +36,12 @@ export default {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background-color: $transparent-background;
+  background-color: $transparent-bg;
   padding: px2rem(30) px2rem(40);
   border-radius: px2rem(10);
   color: #fff;
   display: flex;
-  align-items: center;
+  z-index: 999;
 &.fade-enter-active {
     animation: fadein 0.3s;
   }
@@ -55,9 +57,13 @@ export default {
     &.icon-shibai {
       color: $danger-color;
     }
+    &.icon-gantanhao{
+      color: $warning-color;
+    }
   }
   span{
       font-size: $text-size-big;
+      white-space: nowrap;
   }
 }
 

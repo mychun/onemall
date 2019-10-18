@@ -35,6 +35,10 @@
   content: "\e613";
 }
 
+.icon-gantanhao:before {
+  content: "\e6c6";
+}
+
 .icon-wode:before {
   content: "\e600";
 }

@@ -8,8 +8,8 @@
 
         <div class="slider-wrapper">
           <div class="slider-content">
-            <slider :data="banner">
-              <div v-for="(item, index) in banner" :key="index">
+            <slider :data="shopInfos.banner">
+              <div v-for="(item, index) in shopInfos.banner" :key="index">
                 <a href="javascript:void(0);">
                   <img :src="item.url" />
                 </a>
@@ -25,7 +25,7 @@
               <i class="iconfont icon-youdanjiantou"></i>
             </router-link>
           </h3>
-          <goods-list :data="newList"></goods-list>
+          <goods-list :data="shopInfos.newGoodsList"></goods-list>
         </div>
         <div class="home-goods">
           <h3>
@@ -35,7 +35,7 @@
               <i class="iconfont icon-youdanjiantou"></i>
             </router-link>
           </h3>
-          <goods-list :data="hotList"></goods-list>
+          <goods-list :data="shopInfos.hotGoodsList"></goods-list>
         </div>
       </div>
       <div class="loadingWrapper">
@@ -63,10 +63,11 @@ export default {
   data() {
     return {
       disabled: true,
-      shopInfos: {},
-      banner: [],
-      newList: [],
-      hotList: [],
+      shopInfos: {
+        banner: [],
+        newGoodsList: [],
+        hotGoodsList: []
+      },
       loadingState: true
     };
   },
@@ -82,9 +83,6 @@ export default {
     initViews() {
       getHome().then(res => {
         this.shopInfos = res.data.data;
-        this.banner = this.shopInfos.banner;
-        this.newList = this.shopInfos.newGoodsList;
-        this.hotList = this.shopInfos.hotGoodsList;
         this.loadingState = false;
       });
     }

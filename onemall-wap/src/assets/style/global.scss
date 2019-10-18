@@ -1,8 +1,4 @@
-@import '@/utils/hotcss/px2rem.scss';
-@import "./var";
-@import "./mixin";
-
-@import "./common";
+@import "./common.scss";
 
 * {
 	box-sizing: border-box;
@@ -22,19 +18,17 @@ html {
 }
 body {
 	height: 100%;
-	overflow-x: hidden;
+	overflow: hidden;
 	color: $text-color-imp;
 	margin: 0 auto;
     font-size: $text-size-mid;
-    background-color: #f1f1f1;
+	background-color: $main-bg;
+	
 }
 #app{
 	height: 100%;
 }
-h1,h2,h3,h4,p,ul,li{margin: 0; padding: 0;}
+h1,h2,h3,h4,p,ul,li,dl, dd{margin: 0; padding: 0;}
 input{ border: none; font-size: $text-size-mid;}
 ul,li{ list-style: none; }
-
-.main{
-    padding-bottom: px2rem(100);
-}
+i{font-style: normal;}

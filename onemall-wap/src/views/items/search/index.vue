@@ -71,6 +71,13 @@ export default {
       });
     },
     clearQueryHistory() {
+      if(!this.queryHistory.length){
+        this.$refs.toast.show({
+          content: "操作失败：历史搜索为空。",
+          icon: "icon-shibai"
+        });
+        return;
+      }
       this.$refs.confirm.show();
     },
     clearSearch() {
@@ -146,7 +153,7 @@ export default {
             height: 0;
           }
 
-          padding: $pd-size-mid 0;
+          padding: $pd-size-small 0;
           display: flex;
           justify-content: space-between;
           align-items: center;

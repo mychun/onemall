@@ -46,6 +46,11 @@ export default {
         this._initScroll();
     });
   },
+  activated(){
+    //如果是缓存页面，未触发scroll滚动，直接跳转其它页面后，又返回缓存页面，就会发生页面不能滚动
+    //缓存页面回来，就直接刷新一下
+    this.refresh();
+  },
   methods: {
     _initScroll() {
       if (!this.$refs.wrapper) return;
@@ -86,6 +91,10 @@ export default {
     enable() {
       //启动
       this.scroll && this.scroll.enable();
+    },
+    stop() {
+      //马上停止滚动
+      this.scroll && this.scroll.stop();
     },
     refresh() {
       //刷新

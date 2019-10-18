@@ -15,7 +15,7 @@ export default [
         }
     },
     {
-        path: '*', //任何路径
+        path: '*', //任何不存在路由的页面
         redirect: {
             name: 'home'
         }
