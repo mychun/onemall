@@ -2,27 +2,28 @@
 
 ## Project setup
 ```
-npm install
+注意：需要使用cnpm下载插件
+cnpm install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+cnpm run serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+cnpm run build
 ```
 
 ### Run your tests
 ```
-npm run test
+cnpm run test
 ```
 
 ### Lints and fixes files
 ```
-npm run lint
+cpm run lint
 ```
 
 ### Customize configuration
