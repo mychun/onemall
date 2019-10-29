@@ -107,15 +107,16 @@
               </dl>
               <i class="iconfont icon-shibai" @click="standardActive"></i>
             </div>
-            <div class="buy-standard-wrapper">
+            <div class="buy-standard-wrapper" ref="buyStandrad" id="demo1">
               <div
                 class="buy-standard"
                 v-for="(specification, spec_index) in goods.specificationList"
                 :key="spec_index"
               >
                 <h3 class="bs-title">{{specification.name}}</h3>
-                <p class="bs-item">
+                <p class="bs-row">
                   <span
+                    class="standard-item"
                     @click="selSpecific(spec_index, item_index)"
                     v-for="(item, item_index) in specification.valueList"
                     :key="item_index"
@@ -154,7 +155,7 @@ import counter from "@/components/counter";
 import toast from "@/components/toast";
 
 import { goodsDetail } from "@/api/api";
-import { addClass, removeClass, hasClass } from "@/utils/dom";
+import { addClass, removeClass, hasClass, getElementsByClassName, siblings } from "@/utils/dom";
 export default {
   name: "default",
   components: {
@@ -224,6 +225,7 @@ export default {
         return item.value;
       });
 
+      
       this.goods.productList.forEach(item => {
         if (this._isSameArr(item.specifications, specifications)) {
           buyGoodsInfo.price = item.price;
@@ -260,24 +262,69 @@ export default {
       this.paramsFlag = !this.paramsFlag;
     },
     selSpecific(spec_index, item_index) {
-      const specificItem = "specificItem" + spec_index + "_" + item_index;
-      const curSonNode = this.$refs[specificItem][0];
+      const curSpecificItem = "specificItem" + spec_index + "_" + item_index;
+      const curSpecific = this.$refs[curSpecificItem][0];
 
-      if (hasClass(curSonNode, "sel")) {
+      if (hasClass(curSpecific, "sel") || hasClass(curSpecific, "disable") ) {
         return;
       }
 
-      const parentNode = curSonNode.parentNode;
-      const allSon = parentNode.getElementsByTagName("span");
-      for (var i = 0; i < allSon.length; i++) {
-        if (hasClass(allSon[i], "sel")) {
-          removeClass(allSon[i], "sel");
+      const curParentNode = curSpecific.parentNode;
+      const curAllSpecific = curParentNode.getElementsByTagName("span");
+      const buyStandardSiblings = siblings(curParentNode.parentNode);
+      
+      for (var i = 0; i < curAllSpecific.length; i++) {
+        if (hasClass(curAllSpecific[i], "sel")) {
+          removeClass(curAllSpecific[i], "sel");
           this.selGoodsSize[spec_index].value = "";
         }
       }
 
-      addClass(curSonNode, "sel");
-      this.selGoodsSize[spec_index].value = curSonNode.innerHTML;
+      addClass(curSpecific, "sel");
+
+      const curSpecificHtml = curSpecific.innerHTML;
+      this.selGoodsSize[spec_index].value = curSpecificHtml;
+
+      //库存不足禁止选择商品属性
+      //let selGoodsSize = this.selGoodsSize;
+      const goodsProductList = this.goods.productList;
+      let curSelAllgroup = [];
+
+      for (var i = 0; i < buyStandardSiblings.length; i++) {
+        let allSiblingsSpecNode = getElementsByClassName('standard-item', buyStandardSiblings[i]);
+        for (var i = 0; i < allSiblingsSpecNode.length; i++) {
+          if (hasClass(allSiblingsSpecNode[i], "disable")) {
+            removeClass(allSiblingsSpecNode[i], "disable");
+          }
+        }
+      }
+      
+      goodsProductList.forEach((gpro_item) => {
+        //先把当前选择的属性，并与之匹配的都找出来
+        if(gpro_item.specifications.indexOf(curSpecificHtml) >= 0){
+          curSelAllgroup.push({
+            number: gpro_item.number,
+            specifications: gpro_item.specifications
+          });
+        }
+      })
+
+      curSelAllgroup.forEach((cursel_item)=>{
+        cursel_item.specifications.forEach((spec_item)=>{
+          if(spec_item != curSpecificHtml && cursel_item.number == 0){
+            
+            for (var i = 0; i < buyStandardSiblings.length; i++) {
+              let allSiblingsSpecNode = getElementsByClassName('standard-item', buyStandardSiblings[i]);
+              for (var i = 0; i < allSiblingsSpecNode.length; i++) {
+                if(allSiblingsSpecNode[i].innerHTML == spec_item){
+                  addClass(allSiblingsSpecNode[i], "disable");
+                }
+              }
+            }
+          }
+        })
+      })
+      
     },
     buyQuantityChange(number) {
       this.buyGoodsInfo.buyNumber = number;
@@ -304,6 +351,7 @@ export default {
       }
       console.log(this.buyGoodsInfo);
     },
+    
     _isSameArr(arr1, arr2) {
       let flag = true;
       if (arr1.length !== arr2.length) {
@@ -546,10 +594,10 @@ export default {
             font-size: $text-size-big;
             font-weight: normal;
           }
-          .bs-item {
+          .bs-row {
             display: flex;
             flex-wrap: wrap;
-            span {
+            .standard-item {
               white-space: nowrap;
               padding: px2rem(10) px2rem(20);
               background-color: $inner-wrapper-bg;
@@ -559,6 +607,10 @@ export default {
               &.sel {
                 color: #fff;
                 background-color: $act-color;
+              }
+              &.disable {
+                color: $text-color-assist;
+                background-color: $disable-bg;
               }
             }
           }

@@ -47,6 +47,9 @@ export default {
       this.$emit("on-change", this.number);
     }
   },
+  mounted(){
+    this.$emit("on-change", this.number);
+  },
   computed: {
     minusDisable() {
       if (this.number <= this.min) {
