@@ -7,13 +7,17 @@ $success-color: #5cb85c;
 $warning-color: #ec971f;
 $danger-color: #d9534f;
 $price-color: #ff0000;
+
 $main-bg: #f1f1f1;
 $wrapper-bg: #fff;
 $inner-wrapper-bg: #f7f8fa;
+$inner-wrapper-gray: #d6d5d5;
 $disable-bg: #f2f3f5;
 $shadow-bg: rgba(0, 0, 0, 0.1);
 $transparent-bg: rgba(0, 0, 0, 0.6);
 $warning-btn-bg: linear-gradient(to right,#ffd01e,#ff8917);
+$red-btn-bg: #ff0000;
+$red-btn-bg-active: #9d0404;
 
 //设置字体大小
 $text-size-imp: px2rem(36);

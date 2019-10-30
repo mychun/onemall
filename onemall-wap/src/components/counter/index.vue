@@ -129,7 +129,7 @@ export default {
       this.number++;
     },
     toast(content) {
-      this.$parent._total(content);
+      this.$parent._toast(content);
     }
   }
 };

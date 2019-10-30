@@ -2,6 +2,10 @@
 
 * {
 	box-sizing: border-box;
+	-webkit-overflow-scrolling: auto;
+	-webkit-tap-highlight-color:transparent;
+	-webkit-appearance: none; 
+	outline: none;
 }
 
 a {
@@ -13,12 +17,13 @@ input:-webkit-autofill {
 }
 
 html {
-	-webkit-overflow-scrolling: touch;
+	
 	height: 100%;
 }
 body {
 	height: 100%;
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: auto;
 	color: $text-color-imp;
 	margin: 0 auto;
     font-size: $text-size-mid;
@@ -29,6 +34,73 @@ body {
 	height: 100%;
 }
 h1,h2,h3,h4,p,ul,li,dl, dd{margin: 0; padding: 0;}
-input{ border: none; font-size: $text-size-mid;}
+input{ border: none; font-size: $text-size-mid; padding: 0;}
 ul,li{ list-style: none; }
 i{font-style: normal;}
+
+input.btn, a.btn, .btn{ display: inline-block; font-size: $text-size-imp; border: none; width: auto; text-align: center; transition: background-color .2s; -webkit-transition: background-color .2s;}
+input.btn:active, a.btn:active, .btn:active{ background-color: #e1e1e1;}
+.btn-done.btn{ background-color: #d0d0d0; color: #fff;}
+.btn-done.btn:active{ background-color: #d0d0d0;}
+
+input.btn.btn-red, a.btn.btn-red, .btn.btn-red{ background-color: $red-btn-bg; color: #fff;}
+input.btn.btn-red:active, a.btn.btn-red:active, .btn.btn-red:active{ background-color: $red-btn-bg-active;}
+
+.form-wrapper{
+	padding: 0 $pd-size-big;
+	.form-input{
+		margin-top: $pd-size-big;
+		border: px2rem(2) solid $inner-wrapper-gray;
+		border-radius: px2rem(10);
+		padding: $pd-size;
+		display:flex;
+		align-items: center;
+
+		&:first-child{
+			margin-top:0;
+		}
+		.hint-txt{
+			font-size: $text-size-big;
+		}
+		.iconfont{
+			color: $text-color-assist;
+			font-size: px2rem(50);
+			margin-right: $pd-size;
+		}
+		.form-contrl{
+			flex: 1;
+			height: px2rem(50);
+			font-size: $text-size-big;
+		}
+		.right-txt{
+			color: $act-color;
+			padding-left: $pd-size;
+			position: relative;
+			margin-left: $pd-size;
+			&::before{
+				position: absolute;
+				left: 0;
+				top: 50%;
+				height: px2rem(40);
+				content: '';
+				transform: scale(0.5) translateY(-50%);
+				border-left: px2rem(2) solid $inner-wrapper-gray;
+			}
+		}
+	}
+	.form-link{
+		margin-top: $pd-size-big;
+		display: flex;
+		justify-content: space-between;
+		font-size: $text-size-big;
+	}
+
+	.form-btn{
+		margin-top: $pd-size-big;
+		.btn{
+			width: 100%;
+			line-height: px2rem(100);
+			border-radius: px2rem(10);
+		}
+	}
+}

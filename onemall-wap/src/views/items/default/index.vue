@@ -143,7 +143,6 @@
         </div>
       </div>
     </transition>
-    <toast ref="toast"></toast>
   </div>
 </template>
 <script>
@@ -152,7 +151,7 @@ import scroll from "@/components/scroll";
 import slider from "@/components/slider";
 import loading from "@/components/loading";
 import counter from "@/components/counter";
-import toast from "@/components/toast";
+import {toast} from "@/components/dialog";
 
 import { goodsDetail } from "@/api/api";
 import { addClass, removeClass, hasClass, getElementsByClassName, siblings } from "@/utils/dom";
@@ -163,8 +162,7 @@ export default {
     loading,
     scroll,
     slider,
-    counter,
-    toast
+    counter
   },
   data() {
     return {
@@ -235,7 +233,7 @@ export default {
       });
 
       if (buyGoodsInfo.stockNumber == 0) {
-        this._total("库存不足！");
+        this._toast("库存不足！");
       }
       return buyGoodsInfo;
     }
@@ -331,22 +329,22 @@ export default {
     },
     addCartHandle() {
       if (!this.isSelAll) {
-        this._total("请先选择商品参数！");
+        this._toast("请先选择商品参数！");
         return;
       }
       if (!this.buyGoodsInfo.stockNumber) {
-        this._total("加入失败：库存不足。", "icon-shibai");
+        this._toast("加入失败：库存不足。", 'fail');
         return;
       }
       console.log(this.buyGoodsInfo);
     },
     mustBuyHandle() {
       if (!this.isSelAll) {
-        this._total("请先选择商品参数！");
+        this._toast("请先选择商品参数！");
         return;
       }
       if (!this.buyGoodsInfo.stockNumber) {
-        this._total("购买失败：库存不足。", "icon-shibai");
+        this._toast("加入失败：库存不足。", 'fail');
         return;
       }
       console.log(this.buyGoodsInfo);
@@ -365,11 +363,8 @@ export default {
       }
       return flag;
     },
-    _total(content, icon = ''){
-      this.$refs.toast.show({
-          content: content,
-          icon: icon ? icon : "icon-gantanhao"
-        });
+    _toast(content, status){
+      status == 'fail' ? toast.fail(content) : toast.warning(content);
     }
   }
 };

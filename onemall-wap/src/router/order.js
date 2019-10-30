@@ -4,6 +4,7 @@ const Cart = () => import('@/views/order/cart')
 export default [
     {
         path: '/cart', 
+        name: 'cart',
         components: {
             default: Cart,
             tab: Tab

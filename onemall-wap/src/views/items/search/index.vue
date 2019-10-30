@@ -12,7 +12,7 @@
             </span>
           </div>
           <transition-group name="list" tag="ul" class="history-list">
-            <li v-for=" item in queryHistory " :key="item" @click="setQuery(item)">
+            <li v-for=" (item, index) in queryHistory " :key="index" @click="setQuery(item)">
               <span class="history-name">{{item}}</span>
               <span class="iconfont icon-chuyidong" @click.stop="deleteQueryHistory(index)"></span>
             </li>
@@ -22,15 +22,12 @@
     <div class="search-result-wrapper" v-show="query">
       <search-result :query="query"></search-result>
     </div>
-    <confirm text="是否清空所有搜索历史？" confirmBtnText="清空" ref="confirm" @confirm="clearSearch"></confirm>
-    <toast ref="toast"></toast>
   </div>
 </template>
 <script>
 import searchBox from "@/components/search-box";
 import searchResult from "@/components/search-result";
-import confirm from "@/components/confirm";
-import toast from "@/components/toast";
+import {toast, confirm} from "@/components/dialog";
 import scroll from "@/components/scroll";
 
 import { getGoodsList } from "@/api/api";
@@ -39,8 +36,6 @@ export default {
   name: "search",
   components: {
     searchBox,
-    confirm,
-    toast,
     scroll,
     searchResult
   },
@@ -65,20 +60,22 @@ export default {
     deleteQueryHistory(index) {
       this.queryHistory.splice(index, 1);
       window.localStorage.setItem("queryHistory", this.queryHistory.join("|"));
-      this.$refs.toast.show({
-        content: "删除成功！",
-        icon: "icon-chenggong"
-      });
+      toast.success('删除成功！');
     },
     clearQueryHistory() {
       if(!this.queryHistory.length){
-        this.$refs.toast.show({
-          content: "操作失败：历史搜索为空。",
-          icon: "icon-shibai"
-        });
+        toast.fail('操作失败：历史搜索为空。');
         return;
       }
-      this.$refs.confirm.show();
+
+      const _this = this;
+      confirm({
+        text: '是否清空所有搜索历史？',
+        confirmBtnText: "清空",
+        confirm(){
+            _this.clearSearch();
+        }
+      });
     },
     clearSearch() {
       this.queryHistory = [];
