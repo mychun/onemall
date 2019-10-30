@@ -8,26 +8,22 @@ const ConfirmConstructor = vue.extend(confirmComponent);
 //tost
 class Toast {
     constructor() {
-        this.toastDom = null;
+        this.toastDom = new ToastConstructor({
+            el: document.createElement('div'),
+            data() {
+                return {
+                    text: '',
+                    status: '',
+                    showFlag: false,
+                };
+            }
+        });
+        document.body.appendChild(this.toastDom.$el);
     }
     init(text, status, duration) {
-        if (!this.toastDom) {
-            this.toastDom = new ToastConstructor({
-                el: document.createElement('div'),
-                data() {
-                    return {
-                        text,
-                        status,
-                        showFlag: true,
-                    };
-                }
-            });
-            document.body.appendChild(this.toastDom.$el);
-        } else {
-            this.toastDom.text = text;
-            this.toastDom.status = status;
-            this.toastDom.showFlag = true;
-        }
+        this.toastDom.text = text;
+        this.toastDom.status = status;
+        this.toastDom.showFlag = true;
 
         setTimeout(() => {
             this.toastDom.showFlag = false;
@@ -48,54 +44,44 @@ export const toast = new Toast();
 //confirm
 class Confirm {
     constructor() {
-        this.confirmDom = null;
+        this.confirmDom = new ConfirmConstructor({
+            el: document.createElement('div'),
+            data() {
+                return {
+                    text: '',
+                    cancelBtnText: '取消',
+                    confirmBtnText: '确定',
+                    showFlag: false
+                };
+            },
+            methods: {
+                show() {
+                    this.showFlag = true;
+                },
+                hide() {
+                    this.showFlag = false;
+                },
+                confirm() {},
+                cancel() {}
+            }
+        });
+        document.body.appendChild(this.confirmDom.$el);
     }
     init({ text = '', cancelBtnText = '取消', confirmBtnText = '确定', confirm, cancel }) {
-        if (!this.confirmDom) {
-            this.confirmDom = new ConfirmConstructor({
-                el: document.createElement('div'),
-                data() {
-                    return {
-                        text,
-                        cancelBtnText,
-                        confirmBtnText,
-                        showFlag: true
-                    };
-                },
-                methods: {
-                    show() {
-                        this.showFlag = true;
-                    },
-                    hide() {
-                        this.showFlag = false;
-                    },
-                    confirm() {
-                        typeof confirm === 'function' && confirm();
-                        this.hide();
-                    },
-                    cancel() {
-                        typeof cancel === 'function' && cancel();
-                        this.hide();
-                    }
-                }
-            });
-            document.body.appendChild(this.confirmDom.$el);
-        } else {
-            const confirmDom = this.confirmDom;
-            confirmDom.text = text;
-            confirmDom.cancelBtnText = cancelBtnText;
-            confirmDom.confirmBtnText = confirmBtnText;
-            confirmDom.showFlag = true;
+        const confirmDom = this.confirmDom;
+        confirmDom.text = text;
+        confirmDom.cancelBtnText = cancelBtnText;
+        confirmDom.confirmBtnText = confirmBtnText;
+        confirmDom.showFlag = true;
 
-            this.confirmDom.confirm = function () {
-                typeof confirm === 'function' && confirm();
-                confirmDom.hide();
-            };
-            this.confirmDom.cancel = function () {
-                typeof cancel === 'function' && cancel();
-                confirmDom.hide();
-            };;
-        }
+        this.confirmDom.confirm = function () {
+            typeof confirm === 'function' && confirm();
+            confirmDom.hide();
+        };
+        this.confirmDom.cancel = function () {
+            typeof cancel === 'function' && cancel();
+            confirmDom.hide();
+        };
     }
 
 }

@@ -20,6 +20,7 @@ export default {
           if(this.status == 'warning'){
               return 'icon-gantanhao'
           }
+          return '';
       }
   }
 };
