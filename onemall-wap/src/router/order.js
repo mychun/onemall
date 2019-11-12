@@ -8,9 +8,6 @@ export default [
         components: {
             default: Cart,
             tab: Tab
-        },
-        meta: {
-            keepAlive: true
         }
     }
 ]

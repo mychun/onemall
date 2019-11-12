@@ -3,22 +3,23 @@
     <div
       ref="minusBtn"
       class="counter-btn minus-btn"
-      :class="minusDisable || disableBtn ? 'disable' : ''"
+      :class="minusDisable || disableInput ? 'disable' : ''"
       @click="minus"
     ></div>
     <div class="counter-show">
-      <input v-if="!inputDisable" type="number" v-model="number" @blur="fixNumber" />
+      <input v-if="!disableInput" type="number" v-model="number" @blur="fixNumber" />
       <input v-else type="number" disabled v-model="number" @blur="fixNumber" />
     </div>
     <div
       ref="addBtn"
       class="counter-btn add-btn"
-      :class="addDisable || disableBtn ? 'disable' : ''"
+      :class="addDisable || disableInput ? 'disable' : ''"
       @click="add"
     ></div>
   </div>
 </template>
 <script>
+import { toast } from "@/components/dialog";
 export default {
   name: "counter",
   props: {
@@ -30,25 +31,26 @@ export default {
       type: Number,
       default: 1
     },
-    disableBtn: {
+    inputNumber: {
+      type: Number,
+      default: 1
+    },
+    disableInput: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
-  data() {
-    return {
-      number: this.min
-    };
+  data(){
+    return{
+      number: this.inputNumber
+    }
   },
   //监听number的变化，然后出发父类绑定的on-change事件
   watch: {
     number() {
       //刚渲染就会触发，因为库存第一次传过时为0
-      this.$emit("on-change", this.number);
+      this.$emit("on-change", Number(this.number));
     }
-  },
-  mounted(){
-    this.$emit("on-change", this.number);
   },
   computed: {
     minusDisable() {
@@ -62,22 +64,12 @@ export default {
         return true;
       }
       return false;
-    },
-    inputDisable() {
-      if (this.max == 0 || this.max < this.min) {
-        this.number = 0;
-        return true;
-      } else {
-        this.number = 1;
-        return false;
-      }
     }
   },
   methods: {
     fixNumber() {
       if (this.disableBtn) {
-        this.toast("请先选择商品参数！");
-        this.number = 1;
+        this.number = this.inputNumber;
         return;
       }
 
@@ -89,47 +81,37 @@ export default {
       }
 
       if (fix > this.max) {
-        this.toast("库存不足");
+        toast.warning(`最多购买 ${this.max}`);
         fix = this.max;
       } else if (fix < this.min) {
-        this.toast(`购买数量最少为：${this.min}`);
+        toast.warning(`最少购买 ${this.min}`);
         fix = this.min;
       }
 
       this.number = fix;
     },
     minus() {
-      if (this.disableBtn) {
-        this.toast("请先选择商品参数！");
-        return;
-      }
-      if (this.max == 0 || this.max < this.min) {
-        this.toast("库存不足");
+      if (this.disableInput) {
         return;
       }
       if (this.number <= this.min) {
-        this.toast(`购买数量最少为：${this.min}`);
+        toast.warning(`最少购买 ${this.min}`);
         return;
       }
       this.number--;
     },
     add() {
-      if (this.disableBtn) {
-        this.toast("请先选择商品参数！");
-        return;
-      }
-      if (this.max == 0 || this.max < this.min) {
-        this.toast("库存不足");
+      if (this.disableInput) {
         return;
       }
       if (this.number >= this.max) {
-        this.toast("库存不足");
+        toast.warning(`最多购买 ${this.max}`);
         return;
       }
       this.number++;
     },
     toast(content) {
-      this.$parent._toast(content);
+      toast.warning(content);
     }
   }
 };
@@ -143,18 +125,13 @@ export default {
   border-radius: px2rem(10);
   .counter-show {
     flex: 1;
-    border-left: px2rem(2) solid #e3e3e3;
-    border-right: px2rem(2) solid #e3e3e3;
-    line-height: px2rem(60);
-    height: px2rem(60);
     input {
       display: inline-block;
-      height: 100%;
+      line-height: px2rem(60);
+      height: px2rem(60);
       text-align: center;
       font-size: $text-size-big;
-
       border: none;
-
       width: 100%;
     }
   }
@@ -165,6 +142,12 @@ export default {
     width: px2rem(60);
     font-size: px2rem(60);
     position: relative;
+    &.add-btn {
+      border-left: px2rem(2) solid #e3e3e3;
+    }
+    &.minus-btn {
+      border-right: px2rem(2) solid #e3e3e3;
+    }
     @mixin line {
       content: "";
       background-color: $text-color;

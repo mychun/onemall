@@ -3,7 +3,7 @@
     <div class="search-wrap">
       <i class="iconfont icon-sousuo"></i>
       <input :placeholder="placeholder" ref="queryInput" v-model="query" :disabled="disabled" />
-      <i v-if="query" @click="clearQueryHandle" class="iconfont icon-shanchu"></i>
+      <i v-show="query" @click="clearQueryHandle" class="iconfont icon-shanchu"></i>
     </div>
   </div>
 </template>

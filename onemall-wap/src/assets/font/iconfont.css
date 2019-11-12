@@ -11,6 +11,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-roundcheckfill:before {
+  content: "\e656";
+}
+
+.icon-round:before {
+  content: "\e6d7";
+}
+
+.icon-wancheng:before {
+  content: "\e7b3";
+}
+
 .icon-sousuo:before {
   content: "\e715";
 }
@@ -27,6 +39,14 @@
   content: "\e62f";
 }
 
+.icon-bianji:before {
+  content: "\e630";
+}
+
+.icon-shoucang:before {
+  content: "\e60c";
+}
+
 .icon-shibai:before {
   content: "\e614";
 }
@@ -37,6 +57,10 @@
 
 .icon-shouji:before {
   content: "\e606";
+}
+
+.icon-shoucang1:before {
+  content: "\e615";
 }
 
 .icon-youdanjiantou:before {
@@ -67,6 +91,10 @@
   content: "\e601";
 }
 
+.icon-empty-cart:before {
+  content: "\e8ed";
+}
+
 .icon-chenggong:before {
   content: "\e60d";
 }
@@ -82,5 +110,4 @@
 .icon-icon-category:before {
   content: "\e603";
 }
-
 

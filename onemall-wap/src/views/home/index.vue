@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <scroll class="home-content">
-      <div class="home-wrapper" v-show="!loadingState">
+    <scroll class="home-content" v-show="!loadingState">
+      <div class="home-wrapper">
         <div class="home-search" @click="clickSearchBoxHandle">
           <search-box placeholder="点击搜索" disabled="disabled"></search-box>
         </div>
@@ -38,10 +38,10 @@
           <goods-list :data="shopInfos.hotGoodsList"></goods-list>
         </div>
       </div>
-      <div class="loadingWrapper">
-        <loading v-show="loadingState"></loading>
-      </div>
     </scroll>
+    <div class="loadingWrapper">
+      <loading v-show="loadingState"></loading>
+    </div>
   </div>
 </template>
 <script>
@@ -95,7 +95,6 @@ export default {
   padding-bottom: px2rem(100);
   .home-content {
     height: 100%;
-
     .home-wrapper {
       .slider-wrapper {
         position: relative;
@@ -134,12 +133,12 @@ export default {
         }
       }
     }
-    .loadingWrapper {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      transform: translateY(-50%);
-    }
+  }
+  .loadingWrapper {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
   }
 }
 </style>

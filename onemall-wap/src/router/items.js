@@ -2,7 +2,7 @@ const Tab = () => import('@/components/tab');
 const Category = () => import('@/views/items/category');
 const Search = () => import('@/views/items/search');
 const Goods = () => import('@/views/items/goods');
-const Default = () => import('@/views/items/default');
+const Details = () => import('@/views/items/details');
 
 export default [
     {
@@ -36,8 +36,8 @@ export default [
         component: Goods
     },
     {
-        path: '/default/:id', 
-        name: 'default',
-        component: Default
+        path: '/details/:id', 
+        name: 'details',
+        component: Details
     }
 ]

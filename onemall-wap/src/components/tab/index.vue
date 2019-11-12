@@ -32,20 +32,23 @@ export default {
     z-index: 10;
     height: px2rem(100);
     background-color: $wrapper-bg;
-    box-shadow: 0 -2px 10px #ccc;
+    border-top: 1px solid $inner-wrapper-bg;
     display: flex;
     .tab-item{
         flex: 1;
         display:flex;
         flex-direction: column;
-        align-content: center;
-        text-align: center;
+        justify-content: center;
+        align-items: center;
         padding-top: px2rem(4);
         &.router-link-active{
             color:$act-color;
         }
         .iconfont{
-            font-size: px2rem(56);
+            font-size: px2rem(40);
+        }
+        span{
+            font-size: $text-size-small;
         }
     }
 }

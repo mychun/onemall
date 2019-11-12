@@ -6,6 +6,7 @@
 	-webkit-tap-highlight-color:transparent;
 	-webkit-appearance: none; 
 	outline: none;
+	touch-action: none; //禁止触发默认的手势操作
 }
 
 a {
@@ -66,6 +67,11 @@ input.btn.btn-red:active, a.btn.btn-red:active, .btn.btn-red:active{ background-
 			color: $text-color-assist;
 			font-size: px2rem(50);
 			margin-right: $pd-size;
+		}
+		.icon-shanchu{
+			margin-right: 0;
+			margin-left: $pd-size;
+			font-size: px2rem(30);
 		}
 		.form-contrl{
 			flex: 1;

@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     goToDefault(id){
-      this.$router.push({ path: `/default/${id}` })
+      this.$router.push({ path: `/details/${id}` })
     }
   }
 };
