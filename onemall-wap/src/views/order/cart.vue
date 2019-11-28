@@ -1,70 +1,72 @@
 <template>
   <div class="cart">
-    <div class="cart-top">
-      <span @click="editCartActive" class="cart-edit" v-show="!editCart">
-        <i class="iconfont icon-bianji"></i>编辑
-      </span>
-      <span @click="editCartActive" class="cart-edit-ok" v-show="editCart">
-        <i class="iconfont icon-wancheng"></i>完成
-      </span>
-    </div>
-    <scroll class="cart-content" v-if="!isEmpty && loadEnd">
-      <div class="cart-wrapper">
-        <div class="cart-goods" :class="editCart ? 'edit-cart' : ''">
-          <div
-            class="cgoods-row"
-            :ref="'cgoods' + item.id"
-            v-for="(item, index) in goods"
-            :key="item.id"
-          >
-            <i
-              class="iconfont check-wrapper"
-              :class="item.checked ? 'icon-roundcheckfill' : 'icon-round'"
-              @click="toggleSel(item.checked, item.id)"
-            ></i>
-            <div class="cgoods-info">
-              <img class="cg-img" :src="item.picUrl" />
-              <div class="cg-wrap">
-                <h3>{{item.goodsName}}</h3>
-                <p>
-                  <span
-                    class="cg-spec"
-                    v-for="(sp_item, sp_index) in item.specifications"
-                    :key="sp_index"
-                  >{{sp_item}}</span>
-                </p>
-                <p class="row-b">
-                  <span class="gs-price">¥{{item.price}}</span>
-                  <span class="gs-num">x {{item.number}}</span>
-                </p>
-                <p>
-                  <counter
-                    :inputNumber="item.number"
-                    :max="1000"
-                    v-show="editCart"
-                    @on-change="goodsQuantityChange(item, arguments)"
-                  ></counter>
-                </p>
+    <div class="cart-main"  v-if="!isEmpty && loadEnd">
+      <div class="cart-top">
+        <span @click="editCartActive" class="cart-edit" v-show="!editCart">
+          <i class="iconfont icon-bianji"></i>编辑
+        </span>
+        <span @click="editCartActive" class="cart-edit-ok" v-show="editCart">
+          <i class="iconfont icon-wancheng"></i>完成
+        </span>
+      </div>
+      <scroll class="cart-content">
+        <div class="cart-wrapper">
+          <div class="cart-goods" :class="editCart ? 'edit-cart' : ''">
+            <div
+              class="cgoods-row"
+              :ref="'cgoods' + item.id"
+              v-for="(item, index) in goods"
+              :key="item.id"
+            >
+              <i
+                class="iconfont check-wrapper"
+                :class="item.checked ? 'icon-roundcheckfill' : 'icon-round'"
+                @click="toggleSel(item.checked, item.id)"
+              ></i>
+              <div class="cgoods-info">
+                <router-link tag="div" class="cg-img" :to="'/details/' + item.goodsId"><img :src="item.picUrl" /></router-link>
+                <div class="cg-wrap">
+                  <router-link tag="h3" :to="'/details/' + item.goodsId">{{item.goodsName}}</router-link>
+                  <p>
+                    <span
+                      class="cg-spec"
+                      v-for="(sp_item, sp_index) in item.specifications"
+                      :key="sp_index"
+                    >{{sp_item}}</span>
+                  </p>
+                  <p class="row-b">
+                    <span class="gs-price">¥{{item.price}}</span>
+                    <span class="gs-num">x {{item.number}}</span>
+                  </p>
+                  <p>
+                    <counter
+                      :inputNumber="item.number"
+                      :max="1000"
+                      v-show="editCart"
+                      @on-change="goodsQuantityChange(item, arguments)"
+                    ></counter>
+                  </p>
+                </div>
               </div>
+              <div @click="deleteCart(index)" class="cg-edit">删除</div>
             </div>
-            <div @click="deleteCart(index)" class="cg-edit">删除</div>
           </div>
         </div>
-      </div>
-    </scroll>
-    <div class="cart-bottom">
-      <div class="c-all" @click="selAllActive">
-        <i class="iconfont" :class="isSelAll ? 'icon-roundcheckfill' : 'icon-round'"></i>全选
-      </div>
-      <div class="c-compute">
-        <span class="c-total">
-          总计：
-          <i class="c-price">
-            ¥
-            <em>65.00</em>
-          </i>
-        </span>
-        <span class="btn btn-red">结算</span>
+      </scroll>
+      <div class="cart-bottom">
+        <div class="c-all" @click="selAllActive">
+          <i class="iconfont" :class="isSelAll ? 'icon-roundcheckfill' : 'icon-round'"></i>全选
+        </div>
+        <div class="c-compute">
+          <span class="c-total">
+            总计：
+            <i class="c-price">
+              ¥
+              <em>{{totalPrice}}</em>
+            </i>
+          </span>
+          <span class="btn btn-red" @click="submitCart">结算</span>
+        </div>
       </div>
     </div>
     <div class="cart-empty" v-if="isEmpty && loadEnd">
@@ -112,11 +114,18 @@ export default {
   watch: {
     $route: "initData"
   },
+  computed: {
+    totalPrice(){
+      let total = this.goods.reduce((total, item)=>{
+        return total + (item.checked ? (item.price * item.number) : 0);
+      }, 0)
+      return parseFloat(total).toFixed(2);
+    }
+  },
   methods: {
     initData() {
       cartList().then(res => {
         this.goods = res.data.data.cartList;
-        console.log(this.goods);
         this.loadEnd = true;
 
         if (this.goods.length > 0) {
@@ -220,6 +229,13 @@ export default {
           });
         }
       });
+    },
+    submitCart(){
+      if(this.totalPrice == 0.00){
+        toast.warning('至少选中一个商品，才能结算');
+        return;
+      }
+      this.$router.push('/order');
     }
   }
 };
@@ -229,6 +245,9 @@ export default {
   height: 100%;
   padding-top: px2rem(78);
   padding-bottom: px2rem(200);
+  .cart-main{
+    height: 100%;
+  
   .cart-top {
     position: fixed;
     top: 0;
@@ -280,6 +299,11 @@ export default {
               top: 0;
               width: px2rem(180);
               height: px2rem(180);
+              img{
+                display: block;
+                width: 100%;
+                height: 100%;
+              }
             }
             .cg-wrap {
               h3 {
@@ -290,14 +314,20 @@ export default {
                 text-overflow: ellipsis;
               }
               p {
-                margin-top: px2rem(10);
 
                 .cg-spec {
+                  display: inline-block;
+                    margin-top: px2rem(10);
                   color: $text-color-assist;
+                  border: px2rem(2) solid $inner-wrapper-bg;
+                  border-radius: px2rem(8);
+                  padding: px2rem(4) px2rem(8); 
                   margin-right: px2rem(10);
                 }
               }
               .row-b {
+
+                margin-top: px2rem(10);
                 display: flex;
                 justify-content: space-between;
                 .gs-price {
@@ -375,6 +405,7 @@ export default {
       }
     }
   }
+  }
   .cart-empty {
     padding-top: px2rem(500);
     text-align: center;
@@ -384,7 +415,6 @@ export default {
     color: $text-color-assist;
     .iconfont {
       font-size: px2rem(90);
-      margin-right: $pd-size;
     }
   }
   .loadingWrapper {

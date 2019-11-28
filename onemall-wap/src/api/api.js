@@ -92,3 +92,11 @@ export function cartChecked(data) {
     data
   })
 }
+const CartCheckout='wx/cart/checkout'; // 下单前信息确认
+export function cartCheckout(query) {
+  return request({
+    url: CartCheckout,
+    method: 'get',
+    params: query
+  })
+}

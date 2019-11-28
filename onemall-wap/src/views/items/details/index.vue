@@ -23,25 +23,22 @@
           <p class="g-intro">{{ goods.info.brief }}</p>
         </div>
         <div class="g-detail-wrapper">
-          <ul class="g-params">
-            <li @click="standardActive">
-              <span class="par-left">规格</span>
-              <span class="par-right">
-                <i class="par-right-txt">请选择</i>
+          <ul class="lr-wapper">
+            <li @click="standardActive" class="lr-row">
+              <span class="lr-left">规格</span>
+              <span class="lr-right">
+                请选择<i class="iconfont icon-youdanjiantou"></i>
+              </span>
+            </li>
+            <li @click="paramsActive" class="lr-row">
+              <span class="lr-left">属性</span>
+              <span class="lr-right">
                 <i class="iconfont icon-youdanjiantou"></i>
               </span>
             </li>
-            <li @click="paramsActive">
-              <span class="par-left">属性</span>
-              <span class="par-right">
-                <i class="iconfont icon-youdanjiantou"></i>
-              </span>
-            </li>
-            <li>
-              <span class="par-left">运费</span>
-              <span class="par-right">
-                <i class="right-txt">满88免邮费</i>
-              </span>
+            <li class="lr-row">
+              <span class="lr-left">运费</span>
+              <span class="lr-right">满88免邮费</span>
             </li>
           </ul>
         </div>
@@ -54,6 +51,16 @@
     </scroll>
     <div v-show="!loadEnd" class="loadingWrapper">
       <loading></loading>
+    </div>
+    <div class="details-bttom">
+      <router-link tag="i" class="iconfont icon-empty-cart" to="/cart">
+        <em>{{cartInfo ? cartInfo : ''}}</em>
+      </router-link>
+      <i class="iconfont icon-shoucang1"></i>
+      <div class="buy-btn">
+        <span class="add-cart-btn" @click="standardActive">加入购物车</span>
+        <span class="must-buy-btn" @click="standardActive">立即购买</span>
+      </div>
     </div>
     <transition name="show">
       <div class="pop-up-frame" v-show="paramsFlag" ref="gParams" @click="paramsActive">
@@ -144,16 +151,6 @@
         </div>
       </div>
     </transition>
-    <div class="details-bttom">
-      <router-link tag="i" class="iconfont icon-empty-cart" to="/cart">
-        <em>{{cartInfo ? cartInfo : ''}}</em>
-      </router-link>
-      <i class="iconfont icon-shoucang1"></i>
-      <div class="buy-btn">
-        <span class="add-cart-btn" @click="standardActive">加入购物车</span>
-        <span class="must-buy-btn" @click="standardActive">立即购买</span>
-      </div>
-    </div>
   </div>
 </template>
 <script>
@@ -517,34 +514,6 @@ export default {
     .g-detail-wrapper {
       background-color: $wrapper-bg;
       margin-top: $pd-size;
-
-      .g-params {
-        li {
-          padding: $pd-size-big;
-          position: relative;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          font-size: $text-size-big;
-          &::after {
-            content: "";
-            position: absolute;
-            left: $pd-size-big;
-            bottom: 0;
-            right: 0;
-            height: px2rem(2);
-            background-color: $inner-wrapper-bg;
-          }
-          .par-right {
-            color: $text-color-assist;
-            display: flex;
-            align-items: center;
-            .iconfont {
-              font-size: px2rem(40);
-            }
-          }
-        }
-      }
       .d-title {
         padding: $pd-size-big;
         font-size: $text-size-big;
@@ -590,6 +559,7 @@ export default {
       max-height: 90%;
       overflow-y: auto;
       background-color: $wrapper-bg;
+      border-radius: px2rem(20);
       .icon-shibai {
         position: absolute;
         right: $pd-size-big;
@@ -635,7 +605,7 @@ export default {
       .buy-wrapper {
         height: 100%;
         padding: $pd-size-big $pd-size-big px2rem(160) $pd-size-big;
-
+        
         .buy-top {
           padding-bottom: $pd-size-big;
           display: flex;
