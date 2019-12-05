@@ -1,12 +1,15 @@
 <template>
-  <scroll class="goods" ref="goodsScroll" :pullup="pullup" @scrollToEnd="goodsMore">
+<div class="goods">
+  <base-header class="top-header" :title="title"></base-header>
+  <scroll class="goods-scroll" ref="goodsScroll" :pullup="pullup" @scrollToEnd="goodsMore">
     <div class="goods-wrapper">
-      <base-header :title="title"></base-header>
       <goods-list v-show="list.length" :data="list"></goods-list>
       <loading ref="loading" v-show="hasMore"></loading>
       <div class="end-wrapper" v-show="endHint && list.length">没有更多了!</div>
     </div>
   </scroll>
+</div>
+  
 </template>
 <script>
 import scroll from "@/components/scroll";
@@ -90,8 +93,22 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+*{
+  touch-action: none;
+}
 .goods {
   height: 100%;
+  padding-top: px2rem(100);
+  .top-header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+  }
+  .goods-scroll{
+    height: 100%;
+  }
   .goods-wrapper {
     .end-wrapper {
       padding: px2rem(30) 0;

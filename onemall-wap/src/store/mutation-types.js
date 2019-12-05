@@ -1,3 +1,4 @@
 export const SET_AUTHORIZATION = 'SET_AUTHORIZATION';
 export const SET_AVATAR = 'SET_AVATAR';
 export const SET_NICKNAME = 'SET_NICKNAME';
+export const SET_ADDRESSID = 'SET_ADDRESSID';

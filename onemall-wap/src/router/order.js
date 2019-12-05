@@ -1,6 +1,6 @@
 const Tab = () => import('@/components/tab');
 const Cart = () => import('@/views/order/cart');
-const Order = () => import('@/views/order/order-detail');
+const Order = () => import('@/views/order/order-details');
 
 export default [
     {

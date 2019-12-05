@@ -9,6 +9,9 @@ const mutations = {
     },
     [types.SET_NICKNAME](state, nickName) {
         state.nickName = nickName
+    },
+    [types.SET_ADDRESSID](state, addressId) {
+        state.addressId = addressId
     }
 }
 

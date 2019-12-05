@@ -100,3 +100,54 @@ export function cartCheckout(query) {
     params: query
   })
 }
+
+const AddressList='wx/address/list'; //收货地址列表
+export function addressList(query) {
+  return request({
+    url: AddressList,
+    method: 'get',
+    params: query
+  })
+}
+
+const CollectAddOrDelete='wx/collect/addordelete'; //添加或取消收藏
+export function collectAddOrDelete(data) {
+  return request({
+    url: CollectAddOrDelete,
+    method: 'post',
+    data
+  })
+}
+
+const CatalogList='wx/catalog/index'; //分类目录全部分类数据接口
+export function catalogList() {
+  return request({
+    url: CatalogList,
+    method: 'get'
+  })
+}
+
+const CatalogCurrent='wx/catalog/current'; //分类目录当前分类数据接口
+export function catalogCurrent(query) {
+  return request({
+    url: CatalogCurrent,
+    method: 'get',
+    params: query
+  })
+}
+
+const GoodsCategory='wx/goods/category'; //获得分类数据
+export function goodsCategory(query) {
+  return request({
+    url: GoodsCategory,
+    method: 'get',
+    params: query
+  })
+}
+export function goodsList(query) {
+  return request({
+    url: GoodsList,
+    method: 'get',
+    params: query
+  })
+}

@@ -10,23 +10,9 @@ export const setLocalStorage = data => {
 export const loadUserInfo = {
     Authorization: storage.get('Authorization', []),
     avatar: storage.get('avatar', ''),
-    nickName: storage.get('nickName', [])
+    nickName: storage.get('nickName', []),
+    nickName: storage.get('addressId', [])
 }
-
-const CartUpdate='wx/cart/update'; // 更新购物车的商品
-export function cartUpdate(data) {
-  return request({
-    url: CartUpdate,
-    method: 'post',
-    data
-  })
-}
-
-const CartChecked='wx/cart/checked'; // 选择或取消选择商品
-export function cartChecked(data) {
-  return request({
-    url: CartChecked,
-    method: 'post',
-    data
-  })
+export const loadOrder = {
+  addressId: storage.get('addressId', [])
 }

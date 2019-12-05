@@ -1,8 +1,8 @@
 <template>
-  <div class="default">
+  <div class="details">
     <base-header class="fixedHeader" :title=" goods.info.name "></base-header>
-    <scroll class="default-scroll" ref="defaultScroll" v-show="loadEnd">
-      <div class="default-cont">
+    <scroll class="details-scroll" v-show="loadEnd">
+      <div class="details-cont">
         <div class="slider-wrapper">
           <div class="slider-content">
             <slider :data=" goods.info.gallery ">
@@ -56,7 +56,7 @@
       <router-link tag="i" class="iconfont icon-empty-cart" to="/cart">
         <em>{{cartInfo ? cartInfo : ''}}</em>
       </router-link>
-      <i class="iconfont icon-shoucang1"></i>
+      <i class="iconfont" :class="goods.userHasCollect ? 'icon-shoucang' : 'icon-shoucang1'" @click="collectHandle"></i>
       <div class="buy-btn">
         <span class="add-cart-btn" @click="standardActive">加入购物车</span>
         <span class="must-buy-btn" @click="standardActive">立即购买</span>
@@ -163,7 +163,7 @@ import { toast } from "@/components/dialog";
 
 import _ from "lodash";
 
-import { goodsDetail, cartAdd, cartGoodsCount } from "@/api/api";
+import { goodsDetail, cartAdd, cartGoodsCount, collectAddOrDelete } from "@/api/api";
 import {
   addClass,
   removeClass,
@@ -172,7 +172,7 @@ import {
   siblings
 } from "@/utils/dom";
 export default {
-  name: "default",
+  name: "goodsDetails",
   components: {
     baseHeader,
     loading,
@@ -187,7 +187,8 @@ export default {
           gallery: []
         },
         attribute: [],
-        specificationList: []
+        specificationList: [],
+        userHasCollect: 0
       },
       goodsId: this.$route.params.id,
       loadEnd: false,
@@ -438,6 +439,16 @@ export default {
       });
       return productId;
     },
+    collectHandle() {
+      collectAddOrDelete({ valueId: this.goodsId, type: 0 }).then(res => {
+        if(this.goods.userHasCollect == 0){
+          this.goods.userHasCollect = 1;
+          toast.success("收藏成功！");
+        }else{
+          this.goods.userHasCollect = 0;
+        }
+      });
+    },
     _isSameArr(arr1, arr2) {
       let flag = true;
       if (arr1.length !== arr2.length) {
@@ -455,7 +466,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.default {
+*{
+  touch-action: none;
+}
+.details {
   height: 100%;
   padding: $header-h 0;
   .fixedHeader {
@@ -465,11 +479,11 @@ export default {
     width: 100%;
     z-index: 10;
   }
-  .default-scroll {
+  .details-scroll {
     height: 100%;
     overflow: hidden;
   }
-  .default-cont {
+  .details-cont {
     .slider-wrapper {
       position: relative;
       width: 100%;
@@ -751,6 +765,9 @@ export default {
           display: none;
         }
       }
+    }
+    .icon-shoucang{
+      color: $act-color;
     }
     .buy-btn {
       flex: 1;

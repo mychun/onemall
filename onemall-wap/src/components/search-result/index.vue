@@ -100,6 +100,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+*{
+  touch-action: none;
+}
 .search-result{
   height: 100%;
 

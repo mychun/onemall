@@ -90,11 +90,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+*{
+  touch-action: none;
+}
 .home {
   height: 100%;
   padding-bottom: px2rem(100);
   .home-content {
     height: 100%;
+    overflow: hidden;
     .home-wrapper {
       .slider-wrapper {
         position: relative;

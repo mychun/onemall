@@ -1,5 +1,6 @@
 const Tab = () => import('@/components/tab');
 const Category = () => import('@/views/items/category');
+const CategoryList = () => import('@/views/items/category-list');
 const Search = () => import('@/views/items/search');
 const Goods = () => import('@/views/items/goods');
 const Details = () => import('@/views/items/details');
@@ -21,6 +22,11 @@ export default [
         meta: {
             keepAlive: true
         }
+    },
+    {
+        path: '/categoryList/:id', 
+        name: 'categoryList',
+        component: CategoryList
     },
     {
         path: '/search', 

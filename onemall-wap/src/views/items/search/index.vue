@@ -108,6 +108,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+*{
+  touch-action: none;
+}
 .search-content {
   padding-top: px2rem(110);
   height: 100%;
