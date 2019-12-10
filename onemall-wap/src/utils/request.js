@@ -40,7 +40,7 @@ service.interceptors.response.use(
       // 非5xx的错误属于业务错误，留给具体页面处理
       return Promise.reject(response)
     } else {
-      return response
+      return response;
     }
   }, error => {
     console.log('err' + error)// for debug

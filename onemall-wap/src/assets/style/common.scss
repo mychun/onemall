@@ -41,7 +41,15 @@
         height: px2rem(2);
         background-color: $inner-wrapper-bg;
       }
-      &:last-child::after{ display: none;}
+	  &:last-child::after{ display: none;}
+	  .lr-left{
+		display: flex;
+        align-items: center;
+		.iconfont {
+			font-size: px2rem(40);
+			margin-right: px2rem(6);
+		  }
+	  }
       .lr-right {
         color: $text-color-assist;
         display: flex;

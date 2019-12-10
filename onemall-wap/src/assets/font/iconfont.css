@@ -19,6 +19,10 @@
   content: "\e6d7";
 }
 
+.icon-daifahuo:before {
+  content: "\e607";
+}
+
 .icon-wancheng:before {
   content: "\e7b3";
 }
@@ -43,8 +47,16 @@
   content: "\e630";
 }
 
+.icon-yiwancheng:before {
+  content: "\e639";
+}
+
 .icon-shoucang:before {
   content: "\e60c";
+}
+
+.icon-icon-test:before {
+  content: "\e610";
 }
 
 .icon-shibai:before {
@@ -75,6 +87,10 @@
   content: "\e6c6";
 }
 
+.icon-daishouhuo:before {
+  content: "\e616";
+}
+
 .icon-yanzhengma-:before {
   content: "\e625";
 }
@@ -95,8 +111,20 @@
   content: "\e8ed";
 }
 
+.icon-shouhuodizhi:before {
+  content: "\e666";
+}
+
+.icon-tubiao-:before {
+  content: "\e608";
+}
+
 .icon-chenggong:before {
   content: "\e60d";
+}
+
+.icon-shezhi-:before {
+  content: "\e61e";
 }
 
 .icon-shouye:before {
@@ -110,4 +138,3 @@
 .icon-icon-category:before {
   content: "\e603";
 }
-

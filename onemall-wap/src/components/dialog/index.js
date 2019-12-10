@@ -5,8 +5,6 @@ const ToastConstructor = vue.extend(toastComponent); // 返回一个 扩展实�
 import confirmComponent from './confirm.vue';
 const ConfirmConstructor = vue.extend(confirmComponent);
 
-import {getElementsByClassName} from "@/utils/dom";
-
 //tost
 class Toast {
     constructor() {
