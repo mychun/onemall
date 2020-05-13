@@ -1,7 +1,7 @@
-/**
- * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
- * http://cssreset.com
- */
+@import './mixin.scss';
+@import './variables.scss';
+@import './transition.scss';
+@import './app.scss';
 
 body {
     margin: 0;

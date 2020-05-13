@@ -25,7 +25,7 @@
           auto-complete="on"
           placeholder="password"
         />
-        <span class="show-pwd" @click="cutShowPsw">
+        <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
         </span>
       </el-form-item>
@@ -35,61 +35,68 @@
 </template>
 <script>
 export default {
-  name: "login",
+  name: 'Login',
   data() {
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("管理员密码长度应大于6"));
+        callback(new Error('管理员密码长度应大于6'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       loginForm: {
-        username: "admin123",
-        password: "admin123"
+        username: 'admin123',
+        password: 'admin123'
       },
       loginRules: {
-        username: [
-          { required: true, message: "管理员账户不允许为空", trigger: "blur" }
-        ],
+        username: [{ required: true, message: '管理员账户不允许为空', trigger: 'blur' }],
         password: [
-          { required: true, message: "管理员密码不允许为空", trigger: "blur" },
-          { validator: validatePassword, trigger: "blur" }
+          { required: true, message: '管理员密码不允许为空', trigger: 'blur' },
+          { validator: validatePassword, trigger: 'blur' }
         ]
       },
-      loading: false,
-      passwordType: 'password'
-    };
+      passwordType: 'password',
+      loading: false
+    }
+  },
+  watch: {
+    $route: {
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
+      },
+      immediate: true //马上重定向
+    }
   },
   methods: {
-      cutShowPsw(){
-          this.passwordType = this.passwordType == 'password' ? '' : 'password';
-      },
+    showPwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
+    },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid && !this.loading) {
-          this.loading = true;
-          
-          this.$store.dispatch('LoginByUsername', this.loginForm)
-            .then(() => {
-                this.loading = false
-                this.$router.push( { path: '/' })
+          this.loading = true
+          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+            this.loading = false
+            this.$router.push({ path: this.redirect || '/' })
+          }).catch(response => {
+            this.$notify.error({
+              title: '失败',
+              message: response.data.errmsg
             })
-            .catch( err => {
-                this.loading = false
-                this.$notify.error({
-                    title: '失败',
-                    message: err.data.errmsg
-                })
-            })
+            this.loading = false
+          })
         } else {
-          return false;
+          return false
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 <style lang="scss">
 $bg: #2d3a4b;
